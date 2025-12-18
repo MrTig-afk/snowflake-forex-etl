@@ -1,0 +1,33 @@
+name: 15-Minute Forex Pipeline
+
+on:
+  schedule:
+    # Runs every 15 minutes
+    - cron: '*/15 * * * *'
+  # Allows you to click "Run Now" manually for testing
+  workflow_dispatch:
+
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install libraries
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run Pipeline
+        env:
+          SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
+          SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+          SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+        # UPDATE THIS LINE if your file is still named checkout.py!
+        run: python checkout.py
