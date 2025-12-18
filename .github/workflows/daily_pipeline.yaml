@@ -29,5 +29,5 @@ jobs:
           SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
           SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
           SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
-        # UPDATE THIS LINE if your file is still named checkout.py!
-        run: python checkout.py
+        
+        run: python extract_to_snowflake.py
