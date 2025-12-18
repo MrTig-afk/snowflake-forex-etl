@@ -1,0 +1,31 @@
+name: Production Forex Pipeline
+
+on:
+  workflow_dispatch:  # Manual Run Button
+  schedule:
+    - cron: '*/15 * * * *'  # Every 15 mins
+
+jobs:
+  run-etl:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install libraries
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run Extraction
+        env:
+          SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
+          SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+          SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+        # This matches your file name: extract_to_snowflake.py
+        run: python extract_to_snowflake.py
