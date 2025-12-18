@@ -1,0 +1,3 @@
+yfinance
+snowflake-connector-python
+python-dotenv
